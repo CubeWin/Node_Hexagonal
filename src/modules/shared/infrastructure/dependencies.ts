@@ -1,3 +1,2 @@
-import { CommonHashPassword } from './commons/commonHashPassword';
-
-export const hashPassword = new CommonHashPassword();
+export * from './common/';
+export * from './middleware';

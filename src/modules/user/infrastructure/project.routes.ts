@@ -1,6 +1,7 @@
 import express, { type RequestHandler } from 'express';
 import { userController } from './dependencies';
-import { schemaValidation } from './user.middleware';
+import { schemaValidation } from '../../shared/infrastructure/dependencies';
+// import { schemaValidation } from './user.middleware';
 import { createUserSchema } from './httpTransactionSchema/project.request';
 
 const userRouter = express.Router();
