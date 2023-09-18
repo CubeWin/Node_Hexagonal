@@ -1,7 +1,8 @@
 {
     "env": {
         "es2021": true,
-        "node": true
+        "node": true,
+        "jest/globals": true
     },
     "extends": [
         "standard-with-typescript",
@@ -12,7 +13,8 @@
     "plugins": [
         "@typescript-eslint",
         "import",
-        "prettier"
+        "prettier",
+        "jest"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -24,5 +26,6 @@
             "error"
         ],
         "@typescript-eslint/strict-boolean-expressions": "off"
-    }
+    },
+    "ignorePatterns":["jest.config.js"]
 }

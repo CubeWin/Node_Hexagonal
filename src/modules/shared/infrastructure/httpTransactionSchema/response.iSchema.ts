@@ -1,3 +1,13 @@
+import type { UserEntity } from '../../../user/domain/user.entity';
+
+/** Domain Entities */
+// export interface entityDomain {
+//     entity: UserEntity | null;
+// }
+
+type entityDomain = UserEntity | null;
+
+/** Parent Schema */
 interface plainResponseSchema {
     success: boolean;
     message: string;
@@ -5,7 +15,7 @@ interface plainResponseSchema {
 
 /** Login Response */
 interface loginData {
-    user: object;
+    user: UserEntity;
     role: string;
     token: string;
 }
@@ -24,7 +34,7 @@ interface paginationoData {
 }
 
 interface collectionData {
-    request: object[];
+    request: entityDomain[] | null;
     pagination: paginationoData;
 }
 
@@ -34,7 +44,7 @@ export interface getCollectionSchema extends plainResponseSchema {
 
 /** POST Response */
 interface postData {
-    request: object;
+    request: entityDomain;
 }
 
 export interface postDataSchema extends plainResponseSchema {
@@ -43,7 +53,7 @@ export interface postDataSchema extends plainResponseSchema {
 
 /** PUT Response */
 interface putData {
-    category: object;
+    category: entityDomain;
 }
 
 export interface putDataSchema extends plainResponseSchema {
@@ -52,11 +62,11 @@ export interface putDataSchema extends plainResponseSchema {
 
 /** DELETE Response */
 export interface deleteDataSchema extends plainResponseSchema {
-    data: object | null;
+    data: entityDomain | null;
 }
 
 /** FAIL Response */
 export interface failDataSchema extends plainResponseSchema {
     error_code: number;
-    data: object | null;
+    data: entityDomain[] | null;
 }

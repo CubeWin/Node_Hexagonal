@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const plainResponseSchema = z.object({
     success: z.boolean(),
     message: z.string(),
+    data: z.object({}),
 });
 
 export const loginResponseSchema = z.object({
@@ -163,3 +164,69 @@ export const failResponse = {
     orders_not_found:       'No orders yet'
 
    */
+
+export const handleResGetCollection = (objectData: []): object => {
+    const status = 200;
+    const data = {
+        success: true,
+        message: 'Los datos se obtuvieron correctamente.',
+        data: {
+            requests: objectData,
+            pagination: {
+                current_page: 1,
+                next_page: null,
+                previous_page: null,
+                total_pages: 1,
+                per_page: 10,
+                total_entries: 5,
+            },
+        },
+    };
+    return { status, data };
+};
+
+export const handleResPost = (objectData: object): object => {
+    const status = 201;
+    const data = {
+        success: true,
+        message: `Se registro correctamente el recurso.`,
+        data: {
+            request: objectData,
+        },
+    };
+    return { status, data };
+};
+
+export const handleResPut = (objectData: object): object => {
+    const status = 201;
+    const data = {
+        success: true,
+        message: 'El recurso se actualizo.',
+        data: {
+            category: objectData,
+        },
+    };
+    return { status, data };
+};
+
+export const handleResDelete = (objectData: object): object => {
+    const status = 200;
+    const data = {
+        success: true,
+        message: 'Category deleted successfully',
+        data: {},
+    };
+    return { status, data };
+};
+
+export const handleResFail = (objectData: object): object => {
+    const status = 201;
+    const data = {
+        success: false,
+        message: 'Invalid email or password',
+        error_code: 1308,
+        data: {},
+    };
+
+    return { status, data };
+};

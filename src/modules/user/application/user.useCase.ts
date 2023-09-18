@@ -1,5 +1,5 @@
 import type { HashPassword } from '../../shared/domain/shared.hashPassword';
-import type { typeCategory } from '../domain/user.entity';
+import type { UserEntity, typeCategory } from '../domain/user.entity';
 import type { UserRepository } from '../domain/user.repository';
 import { UserValue } from '../domain/user.value';
 
@@ -15,7 +15,7 @@ export class UserUseCAse {
     }: {
         username: string;
         password: string;
-    }): Promise<UserValue | null> => {
+    }): Promise<UserEntity | null> => {
         const getUser = await this.userRepository.findByUserOrEmail(username);
         if (!getUser) {
             throw new Error('No se encontro elusuario');
@@ -38,7 +38,7 @@ export class UserUseCAse {
         username: string;
         password: string;
         category: typeCategory;
-    }): Promise<UserValue | null> => {
+    }): Promise<UserEntity | null> => {
         const passwordHash = await this.hashPassword.encryptText(password);
         const userValue = new UserValue({
             email,
@@ -50,7 +50,7 @@ export class UserUseCAse {
         return userCreate;
     };
 
-    public getListUser = async (): Promise<UserValue[] | null> => {
+    public getListUser = async (): Promise<UserEntity[] | null> => {
         const usersLists = await this.userRepository.getAllUser();
         return usersLists;
     };

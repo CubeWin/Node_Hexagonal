@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import type { UserUseCAse } from '../application/user.useCase';
-import type { typeCategory } from '../domain/user.entity';
+import type { UserEntity, typeCategory } from '../domain/user.entity';
+import type { getCollectionSchema } from '../../shared/infrastructure/httpTransactionSchema/response.iSchema';
 
 export class UserController {
     constructor(private readonly userUseCase: UserUseCAse) {}
@@ -29,7 +30,21 @@ export class UserController {
     }
 
     public async getUsers(req: Request, res: Response): Promise<void> {
-        const users = await this.userUseCase.getListUser();
-        res.status(201).json({ success: true, data: users });
+        const users: UserEntity[] | null = await this.userUseCase.getListUser();
+        const resUsers: getCollectionSchema = {
+            message: '',
+            success: true,
+            data: {
+                request: users,
+                pagination: {
+                    current_page: 1,
+                    next_page: 2,
+                    previous_page: 1,
+                    total_entries: 2,
+                    total_pages: 2,
+                },
+            },
+        };
+        res.status(201).json(resUsers);
     }
 }
