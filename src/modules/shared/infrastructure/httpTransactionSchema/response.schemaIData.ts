@@ -1,11 +1,6 @@
 import type { UserEntity } from '../../../user/domain/user.entity';
 
-/** Domain Entities */
-// export interface entityDomain {
-//     entity: UserEntity | null;
-// }
-
-type entityDomain = UserEntity | null;
+export type entityDomain = UserEntity;
 
 /** Parent Schema */
 interface plainResponseSchema {
@@ -25,7 +20,7 @@ export interface loginResponseSchema extends plainResponseSchema {
 }
 
 /** Collection Response */
-interface paginationoData {
+export interface paginationData {
     current_page: number;
     next_page: number | null;
     previous_page: number | null;
@@ -35,7 +30,7 @@ interface paginationoData {
 
 interface collectionData {
     request: entityDomain[] | null;
-    pagination: paginationoData;
+    pagination: paginationData;
 }
 
 export interface getCollectionSchema extends plainResponseSchema {

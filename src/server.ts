@@ -4,6 +4,7 @@ import morgan from 'morgan'; // *Solo para desarrollo
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { router } from './routes/index.routes';
+import { handleError } from './common/handleError.common';
 dotenv.config();
 
 export class Server {
@@ -39,6 +40,7 @@ export class Server {
 
     routes(): void {
         this.app.use('/api', router);
+        this.app.use(handleError);
     }
 
     listen(): void {

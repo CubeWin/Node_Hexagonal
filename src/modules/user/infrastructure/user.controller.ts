@@ -1,7 +1,10 @@
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import type { UserUseCAse } from '../application/user.useCase';
 import type { UserEntity, typeCategory } from '../domain/user.entity';
-import type { getCollectionSchema } from '../../shared/infrastructure/httpTransactionSchema/response.iSchema';
+import type { paginationData } from '../../shared/infrastructure/httpTransactionSchema/response.schemaIData';
+import { HttpStatus } from '../../shared/infrastructure/httpTransactionSchema/response.httpResponse';
+import { HttpResponseSchemaData } from '../../shared/infrastructure/httpTransactionSchema/response.schemaData';
+import { NotFoundResponse } from '../../shared/infrastructure/httpTransactionSchema/response.typeResponse';
 
 export class UserController {
     constructor(private readonly userUseCase: UserUseCAse) {}
@@ -29,22 +32,29 @@ export class UserController {
         res.status(201).json({ success: true, data: newUser });
     }
 
-    public async getUsers(req: Request, res: Response): Promise<void> {
-        const users: UserEntity[] | null = await this.userUseCase.getListUser();
-        const resUsers: getCollectionSchema = {
-            message: '',
-            success: true,
-            data: {
-                request: users,
-                pagination: {
-                    current_page: 1,
-                    next_page: 2,
-                    previous_page: 1,
-                    total_entries: 2,
-                    total_pages: 2,
-                },
-            },
-        };
-        res.status(201).json(resUsers);
+    public async getUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const users: UserEntity[] | null = await this.userUseCase.getListUser();
+            if (!users || users.length === 0 || users === null) {
+                throw new NotFoundResponse();
+            }
+            // const httpResponse = new HttpResponse();
+            const httpDataResponse = new HttpResponseSchemaData();
+            const pagination: paginationData = {
+                current_page: 2,
+                next_page: 2,
+                previous_page: 1,
+                total_entries: 2,
+                total_pages: 2,
+            };
+            // httpResponse.Success(res, 201, httpDataResponse.ReadAll(users, 'Users', pagination));
+            res.status(HttpStatus.OK).json(httpDataResponse.ReadAll(users, 'Users', pagination));
+        } catch (error) {
+            next(error);
+            // if (error instanceof NotFoundResponse) {
+            //     const httpResponse = new HttpResponse();
+            //     httpResponse.NotFound(res);
+            // }
+        }
     }
 }
