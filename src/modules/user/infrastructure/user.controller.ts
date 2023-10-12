@@ -38,7 +38,6 @@ export class UserController {
             if (!users || users.length === 0 || users === null) {
                 throw new NotFoundResponse();
             }
-            // const httpResponse = new HttpResponse();
             const httpDataResponse = new HttpResponseSchemaData();
             const pagination: paginationData = {
                 current_page: 2,
@@ -47,14 +46,9 @@ export class UserController {
                 total_entries: 2,
                 total_pages: 2,
             };
-            // httpResponse.Success(res, 201, httpDataResponse.ReadAll(users, 'Users', pagination));
             res.status(HttpStatus.OK).json(httpDataResponse.ReadAll(users, 'Users', pagination));
         } catch (error) {
             next(error);
-            // if (error instanceof NotFoundResponse) {
-            //     const httpResponse = new HttpResponse();
-            //     httpResponse.NotFound(res);
-            // }
         }
     }
 }

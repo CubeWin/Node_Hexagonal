@@ -61,7 +61,12 @@ export interface deleteDataSchema extends plainResponseSchema {
 }
 
 /** FAIL Response */
+export interface inputFailData {
+    input: string;
+    message: string;
+}
+
 export interface failDataSchema extends plainResponseSchema {
     error_code: number;
-    data: entityDomain[] | null;
+    data: inputFailData[] | null;
 }

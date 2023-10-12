@@ -3,6 +3,7 @@ import type {
     entityDomain,
     failDataSchema,
     getCollectionSchema,
+    inputFailData,
     paginationData,
     postDataSchema,
     putDataSchema,
@@ -46,7 +47,7 @@ export class HttpResponseSchemaData {
     }
 
     // ERROR STRUCTURES
-    Error(message: string, errorCode: number): failDataSchema {
-        return { success: false, message, error_code: errorCode, data: null };
+    Error(message: string, errorCode: number, data: inputFailData[] | null = null): failDataSchema {
+        return { success: false, message, error_code: errorCode, data };
     }
 }
